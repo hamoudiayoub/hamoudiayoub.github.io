@@ -483,6 +483,9 @@ kbd { font-family: var(--f-mono); border: 1px solid var(--line-strong); border-b
 /* ---------- responsive ---------- */
 @media (max-width: 1080px) {
   .nav__links { gap: 18px; }
+  .hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 320px); grid-template-areas: "title title" "text portrait"; }
+  .hero__title { margin-right: 0; }
+  .hero__portrait { padding-top: 0; }
   .entry { grid-template-columns: 110px minmax(0, 1fr); }
   .entry__art { grid-column: 2; position: static; max-width: 520px; }
   .pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
