@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/style.css?v=5" />
   <script>
     document.documentElement.classList.add('js');
     try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
@@ -38,9 +38,8 @@
     </a>
     <nav class="nav__links" aria-label="Sections">
       <a href="#log"><span class="mono">01</span> Experience</a>
-      <a href="#distdb"><span class="mono">02</span> DistDB</a>
-      <a href="#work"><span class="mono">03</span> Projects</a>
-      <a href="#contact"><span class="mono">04</span> Contact</a>
+      <a href="#work"><span class="mono">02</span> Projects</a>
+      <a href="#contact"><span class="mono">03</span> Contact</a>
     </nav>
     <div class="nav__tools">
       <span class="pill mono" id="navStatus" title="Live state of the Raft cluster on this page">
@@ -74,16 +73,16 @@
         </div>
         <div class="hero__text">
           <p class="lede reveal">
-            Software engineering student at <strong>INPT Rabat</strong>, working on distributed systems, cloud,
-            AI/LLM and mobile. I wrote <a href="#distdb" class="link">DistDB</a>, a distributed SQL database built from scratch.
-            In 2026 I did three internships and missions, at <a href="#cmr" class="link">CMR</a>, <a href="#agh" class="link">AGH</a> and <a href="#b2blink" class="link">B2BLink</a>.
+            Software engineering student at <strong>INPT Rabat</strong>. I work on <strong>full-stack development</strong>,
+            distributed systems, cloud, AI/LLM and mobile. In 2026 I did internships at <a href="#cmr" class="link">CMR</a>
+            and <a href="#b2blink" class="link">B2BLink</a>, and a freelance LLM mission at <a href="#agh" class="link">AGH</a>.
           </p>
           <div class="hero__cta reveal">
-            <a class="btn btn--ink" href="#distdb">Read the DistDB story <span aria-hidden="true">→</span></a>
+            <a class="btn btn--ink" href="#work">See my projects <span aria-hidden="true">→</span></a>
             <a class="btn btn--ghost" href="#log">See my experience <span aria-hidden="true">↓</span></a>
           </div>
           <ul class="hero__chips mono reveal" aria-label="Focus areas">
-            <li>Distributed systems</li><li>Cloud</li><li>AI / LLM</li><li>Mobile</li><li>Full-stack</li>
+            <li>Full-stack</li><li>Distributed systems</li><li>Cloud</li><li>AI / LLM</li><li>Mobile</li>
           </ul>
         </div>
 
@@ -236,13 +235,20 @@
       </ol>
     </section>
 
-    <!-- ─────────────── DISTDB ─────────────── -->
-    <section class="distdb" id="distdb">
+    <!-- ─────────────── PROJECTS ─────────────── -->
+    <section class="section" id="work">
+      <header class="section__head">
+        <p class="mono eyebrow"><span class="ink-red">02</span> / Projects</p>
+        <h2 class="display-2 reveal">What I've <em>built</em>.</h2>
+        <p class="section__intro reveal">A distributed database written from scratch, plus full-stack, cloud and desktop projects from INPT and my own time.</p>
+      </header>
+
+      <article class="distdb" id="distdb" aria-labelledby="distdbTitle">
       <div class="distdb__inner">
         <header class="distdb__head">
           <div>
-            <p class="mono eyebrow"><span class="ink-red">02</span> / Featured project</p>
-            <h2 class="distdb__title reveal">DistDB</h2>
+            <p class="mono eyebrow"><span class="ink-red">★</span> Featured project · distributed systems</p>
+            <h3 class="distdb__title reveal" id="distdbTitle">DistDB</h3>
             <p class="distdb__sub reveal">A distributed SQL database, built from scratch in <strong>Java 25</strong>. Raft-replicated ranges on an LSM engine,
               Percolator transactions, a cost-based planner and the PostgreSQL wire protocol, each tested under injected faults.</p>
             <div class="distdb__links reveal">
@@ -361,15 +367,9 @@
           </ol>
         </div>
       </div>
-    </section>
+      </article>
 
-    <!-- ─────────────── PROJECTS ─────────────── -->
-    <section class="section" id="work">
-      <header class="section__head">
-        <p class="mono eyebrow"><span class="ink-red">03</span> / More projects</p>
-        <h2 class="display-2 reveal">Other <em>ranges</em> of the keyspace.</h2>
-        <p class="section__intro reveal">Full-stack, cloud and desktop projects built at INPT and on my own.</p>
-      </header>
+      <p class="mono eyebrow projects__more">More projects</p>
 
       <div class="cards">
         <article class="card reveal">
@@ -449,7 +449,7 @@
 
     <!-- ─────────────── CONTACT ─────────────── -->
     <section class="contact" id="contact">
-      <p class="mono eyebrow"><span class="ink-red">04</span> / Contact</p>
+      <p class="mono eyebrow"><span class="ink-red">03</span> / Contact</p>
       <h2 class="contact__title reveal">Let's reach <em>consensus</em>.</h2>
       <p class="contact__lede reveal">Internships, projects, or a conversation about consensus, inference or mobile UX. A quorum of one is enough to start.</p>
       <div class="contact__links reveal">
