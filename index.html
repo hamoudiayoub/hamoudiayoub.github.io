@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ayoub Hamoudi · Software Engineer</title>
+  <meta name="description" content="Ayoub Hamoudi, software engineering student at INPT Rabat. Distributed systems, cloud, AI/LLM and mobile. Author of DistDB, a distributed SQL database built from scratch in Java." />
+  <meta name="theme-color" content="#F2EDE3" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#11100D" media="(prefers-color-scheme: dark)" />
+  <meta property="og:title" content="Ayoub Hamoudi · Software Engineer" />
+  <meta property="og:description" content="I build systems that agree, and apps that reassure. Distributed systems, cloud, AI/LLM, mobile." />
+  <meta property="og:image" content="https://hamoudiayoub.github.io/assets/img/distdb.jpg" />
+  <meta property="og:image:width" content="2000" />
+  <meta property="og:image:height" content="1125" />
+  <meta property="og:url" content="https://hamoudiayoub.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://hamoudiayoub.github.io/" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2315140F'/%3E%3Ccircle cx='20' cy='22' r='6' fill='%232B3BD6'/%3E%3Ccircle cx='44' cy='22' r='6' fill='%23E8462B'/%3E%3Ccircle cx='32' cy='44' r='6' fill='%232B3BD6'/%3E%3Cpath d='M20 22L44 22L32 44Z' fill='none' stroke='%23F2EDE3' stroke-width='2'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=3" />
+  <script>
+    document.documentElement.classList.add('js');
+    try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <svg class="grain" aria-hidden="true"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+
+  <!-- ─────────────── NAV ─────────────── -->
+  <header class="nav" id="top">
+    <a class="nav__brand" href="#top" aria-label="Ayoub Hamoudi, back to top">
+      <span class="nav__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="mono">ayoub.hamoudi</span>
+    </a>
+    <nav class="nav__links" aria-label="Sections">
+      <a href="#log"><span class="mono">01</span> Experience</a>
+      <a href="#distdb"><span class="mono">02</span> DistDB</a>
+      <a href="#work"><span class="mono">03</span> Projects</a>
+      <a href="#contact"><span class="mono">04</span> Contact</a>
+    </nav>
+    <div class="nav__tools">
+      <span class="pill mono" id="navStatus" title="Live state of the Raft cluster on this page">
+        <span class="dot"></span><span id="navStatusText">electing…</span>
+      </span>
+      <button class="iconbtn" id="shellBtn" aria-label="Open the DistDB shell" title="Open the shell (press /)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6l6 6-6 6M12 18h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="iconbtn" id="themeBtn" aria-label="Toggle dark mode" title="Toggle theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ─────────────── HERO ─────────────── -->
+    <section class="hero">
+      <div class="hero__meta mono">
+        <span>Rabat, Morocco · 34.02°N 6.83°W</span>
+        <span>Software Engineering · INPT</span>
+        <span>Portfolio · 2026 edition</span>
+      </div>
+
+      <div class="hero__grid">
+        <div class="hero__title">
+          <p class="eyebrow mono reveal">Ayoub Hamoudi, software engineer in the making</p>
+          <h1 class="display reveal">
+            I build systems that <em class="ink-red">agree</em>,<br />
+            and apps that <em class="ink-blue">reassure</em>.
+          </h1>
+        </div>
+        <div class="hero__text">
+          <p class="lede reveal">
+            Software engineering student at <strong>INPT Rabat</strong>, working on distributed systems, cloud,
+            AI/LLM and mobile. I wrote <a href="#distdb" class="link">DistDB</a>, a distributed SQL database built from scratch.
+            In 2026 I did three internships and missions, at <a href="#cmr" class="link">CMR</a>, <a href="#agh" class="link">AGH</a> and <a href="#b2blink" class="link">B2BLink</a>.
+          </p>
+          <div class="hero__cta reveal">
+            <a class="btn btn--ink" href="#distdb">Read the DistDB story <span aria-hidden="true">→</span></a>
+            <a class="btn btn--ghost" href="#log">See my experience <span aria-hidden="true">↓</span></a>
+          </div>
+          <ul class="hero__chips mono reveal" aria-label="Focus areas">
+            <li>Distributed systems</li><li>Cloud</li><li>AI / LLM</li><li>Mobile</li><li>Full-stack</li>
+          </ul>
+        </div>
+
+        <figure class="hero__portrait reveal">
+          <div class="frame">
+            <img src="assets/img/portrait.jpg" alt="Portrait of Ayoub Hamoudi, printed in blue and red risograph ink" width="900" height="1200" fetchpriority="high" onerror="this.onerror=null;this.src='assets/img/avatar.jpg'" />
+            <span class="frame__tag mono">fig. 01</span>
+          </div>
+          <figcaption class="mono">fig. 01: the engineer, printed in two inks.</figcaption>
+        </figure>
+      </div>
+
+      <!-- Live Raft cluster -->
+      <div class="cluster reveal" id="cluster">
+        <div class="cluster__head">
+          <p class="mono"><span class="ink-red">fig. 02</span>: a live Raft cluster, running in your browser.</p>
+          <p class="cluster__hint">Click a node to <strong>crash</strong> it, and again to restart it. Watch the others elect a new leader. Crash three and the cluster stops answering: it chooses being safe over being available.</p>
+        </div>
+        <div class="cluster__stage">
+          <svg id="clusterSvg" viewBox="0 0 520 300" role="img" aria-label="Animated diagram of five nodes electing a leader with the Raft consensus algorithm"></svg>
+          <ol class="cluster__log mono" id="clusterLog" aria-live="polite"></ol>
+        </div>
+        <div class="cluster__legend mono">
+          <span><i class="lg lg--leader"></i>leader</span>
+          <span><i class="lg lg--follower"></i>follower</span>
+          <span><i class="lg lg--candidate"></i>candidate</span>
+          <span><i class="lg lg--dead"></i>crashed</span>
+          <span><i class="lg lg--hb"></i>heartbeat</span>
+          <span><i class="lg lg--vote"></i>vote request</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────── MARQUEE ─────────────── -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Raft</span><em>LSM trees</em><span>Percolator</span><em>PostgreSQL wire</em><span>gRPC</span><em>Kubernetes</em><span>Spring Boot</span><em>FastAPI</em><span>Flutter</span><em>React Native</em><span>Qwen2.5</span><em>MediaPipe</em><span>Prometheus</span><em>Docker</em>
+        <span>Raft</span><em>LSM trees</em><span>Percolator</span><em>PostgreSQL wire</em><span>gRPC</span><em>Kubernetes</em><span>Spring Boot</span><em>FastAPI</em><span>Flutter</span><em>React Native</em><span>Qwen2.5</span><em>MediaPipe</em><span>Prometheus</span><em>Docker</em>
+      </div>
+    </div>
+
+    <!-- ─────────────── MANIFESTO ─────────────── -->
+    <section class="manifesto">
+      <p class="mono eyebrow reveal">A principle I work by</p>
+      <blockquote class="reveal">
+        “Technology should be <em>reassuring</em> before it's <em>functional</em>.”
+      </blockquote>
+      <p class="manifesto__note reveal">
+        I learned it from testing an app with elderly people. It turns out to hold for databases too: a replica
+        doesn't acknowledge a write until a majority has it. Whether the person on the other end is a retiree or
+        a client process, they should be able to trust the answer they get.
+      </p>
+    </section>
+
+    <!-- ─────────────── EXPERIENCE / LOG ─────────────── -->
+    <section class="section" id="log">
+      <header class="section__head">
+        <p class="mono eyebrow"><span class="ink-red">01</span> / Experience</p>
+        <h2 class="display-2 reveal">The <em>commit log</em>.</h2>
+        <p class="section__intro reveal">Three entries, newest first. Each one replicated, acknowledged, and applied.</p>
+      </header>
+
+      <ol class="log">
+        <!-- B2BLink -->
+        <li class="entry reveal" id="b2blink">
+          <div class="entry__idx">
+            <span class="entry__num display-2">03</span>
+            <span class="mono entry__meta">idx 003 · committed <span class="ok">✓</span></span>
+            <span class="mono entry__date">Jul – Aug 2026<br />2 months · remote</span>
+          </div>
+          <div class="entry__body">
+            <p class="mono entry__org">B2BLink</p>
+            <h3 class="entry__role">Software Engineer Intern</h3>
+            <p class="entry__project"><span class="mono tag tag--red">Live</span> SmartAlert: redesign and optimization of an automotive offer alert platform</p>
+            <ul class="entry__points">
+              <li>Built a resilient <strong>Node.js</strong> data-extraction microservice that keeps offers coming from Cloudflare-protected sources, using rotating proxies.</li>
+              <li>Connected it to the existing <strong>Spring Boot</strong> backend through an internal REST API, which centralized the business logic and stored the data in <strong>MongoDB</strong>.</li>
+              <li>Redesigned the web interface in <strong>React</strong> and SASS, and shipped the new Rentals and Services modules.</li>
+              <li>Built real-time messaging between clients and service providers over <strong>WebSockets</strong>.</li>
+            </ul>
+            <p class="entry__note mono">With teammates Houssame Mehrach &amp; Naoufal Jaidi · academic supervisor Hicham Baidouri, Ph.D.</p>
+            <ul class="stack mono"><li>Node.js</li><li>Spring Boot</li><li>MongoDB</li><li>React</li><li>SASS</li><li>WebSockets</li><li>REST</li></ul>
+          </div>
+          <figure class="entry__art"><img src="assets/img/smartalert.jpg" alt="Risograph illustration of a car with radar pulses and price tags" loading="lazy" width="1200" height="900" /></figure>
+        </li>
+
+        <!-- AGH -->
+        <li class="entry reveal" id="agh">
+          <div class="entry__idx">
+            <span class="entry__num display-2">02</span>
+            <span class="mono entry__meta">idx 002 · committed <span class="ok">✓</span></span>
+            <span class="mono entry__date">Jun 2026<br />freelance · remote</span>
+          </div>
+          <div class="entry__body">
+            <p class="mono entry__org">AGH Data Agency Holding SA</p>
+            <h3 class="entry__role">LLM Developer</h3>
+            <p class="entry__project"><span class="mono tag tag--blue">3 apps</span> Fully local AI mobile apps for beauty, hair, fitness and recipes</p>
+
+            <div class="sub">
+              <h4>Esthétique AI: skin diagnostics <span class="mono">· vision + LLM</span></h4>
+              <ul class="entry__points">
+                <li><strong>Flask</strong> API running <strong>Llama 3.2</strong> on Ollama: personalized skincare routines and product recommendations from <strong>OpenCV</strong> image analysis.</li>
+                <li>Business rules for dermatological alerts and a teenage mode.</li>
+              </ul>
+            </div>
+            <div class="sub">
+              <h4>APK Coiffure: hair advice <span class="mono">· cross-platform</span></h4>
+              <ul class="entry__points">
+                <li><strong>FastAPI</strong> service running the lightweight <strong>Qwen2.5-0.5B</strong>, with real-time face-shape detection in <strong>MediaPipe</strong>.</li>
+                <li><strong>Flutter</strong> client with multi-turn conversation history. Semantic whitelist/blacklist filtering keeps the model on topic.</li>
+              </ul>
+            </div>
+            <div class="sub">
+              <h4>Coach Fitness &amp; Recettes <span class="mono">· optimization</span></h4>
+              <ul class="entry__points">
+                <li>Removed the RAG layer and moved to general-purpose <strong>Qwen2.5 1.5B / 3B</strong> models: latency went down <strong>5–10×</strong>, and so did RAM use.</li>
+                <li>Rebuilt the app on <strong>Clean Architecture</strong> (Domain/Data layers, Provider) with a <strong>Django</strong> backend and 3D avatar progression.</li>
+              </ul>
+            </div>
+            <p class="entry__note mono">Shipped through Git pull requests, with SonarQube quality gates on every change.</p>
+            <ul class="stack mono"><li>Flutter</li><li>FastAPI</li><li>Django</li><li>Flask</li><li>Ollama</li><li>Llama 3.2</li><li>Qwen2.5</li><li>MediaPipe</li><li>OpenCV</li><li>SonarQube</li></ul>
+          </div>
+          <figure class="entry__art"><img src="assets/img/agh.jpg" alt="Risograph illustration of a phone with a face mesh, a comb, a dumbbell and a chat bubble" loading="lazy" width="1200" height="900" /></figure>
+        </li>
+
+        <!-- CMR -->
+        <li class="entry reveal" id="cmr">
+          <div class="entry__idx">
+            <span class="entry__num display-2">01</span>
+            <span class="mono entry__meta">idx 001 · committed <span class="ok">✓</span></span>
+            <span class="mono entry__date">Mar – May 2026<br />3 months · on-site</span>
+          </div>
+          <div class="entry__body">
+            <p class="mono entry__org">CMR, Caisse Marocaine des Retraites <span class="muted">· Open Lab, with INPT &amp; Soft Centre</span></p>
+            <h3 class="entry__role">Software Engineer Intern</h3>
+            <p class="entry__project"><span class="mono tag tag--red">Tested</span> Senior-Aidant, a medication app for seniors and their caregivers (Silver Economy 2026)</p>
+            <ul class="entry__points">
+              <li>Started from people, not a spec. Interviews and field observation with CMR beneficiaries surfaced <strong>three barriers</strong> to living independently at home: cognitive (missed medication), ergonomic (the digital divide) and psychological (isolation, and a family worrying from afar).</li>
+              <li>Produced the Design Thinking deliverables: empathy map, personas, value proposition canvas, and a benchmark (MyTherapy, mediteo) showing that <strong>none offered a caregiver module</strong>.</li>
+              <li>Designed a real-time synchronized <strong>Senior ↔ Caregiver</strong> architecture. Seniors get large buttons, stronger visual and audio alerts and one-tap validation. Caregivers get a remote dashboard to set up treatments and follow adherence.</li>
+              <li>Ran <strong>2 user-testing sessions</strong> at CMR (13 &amp; 21 May 2026) and built in 4 improvements from the field, among them a soothing notification tone, a voice reminder mode and a double-dose safeguard for Alzheimer's profiles.</li>
+              <li>Delivered a bilingual (FR/AR) Android prototype in <strong>React Native / Expo</strong>.</li>
+            </ul>
+            <blockquote class="entry__quote">“As engineers, our job doesn't start with code. It starts with formulating the right problem.”</blockquote>
+            <p class="entry__note mono">With Haitham Achour · supervised by Prof. Driss Allaki (INPT), Mrs Hasna Alaoui (CMR Open Lab), Mr Hamza Fatih (Soft Centre)</p>
+            <ul class="stack mono"><li>React Native</li><li>Expo</li><li>Design Thinking</li><li>User research</li><li>Real-time sync</li><li>Accessibility</li></ul>
+          </div>
+          <figure class="entry__art"><img src="assets/img/senior-aidant.jpg" alt="Risograph illustration of elderly hands holding a phone with large buttons, a younger hand resting on their arm" loading="lazy" width="1200" height="900" /></figure>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ─────────────── DISTDB ─────────────── -->
+    <section class="distdb" id="distdb">
+      <div class="distdb__inner">
+        <header class="distdb__head">
+          <div>
+            <p class="mono eyebrow"><span class="ink-red">02</span> / Featured project</p>
+            <h2 class="distdb__title reveal">DistDB</h2>
+            <p class="distdb__sub reveal">A distributed SQL database, built from scratch in <strong>Java 25</strong>. Raft-replicated ranges on an LSM engine,
+              Percolator transactions, a cost-based planner and the PostgreSQL wire protocol, each tested under injected faults.</p>
+            <div class="distdb__links reveal">
+              <a class="btn btn--paper" href="https://github.com/hamoudiayoub/DistDB" target="_blank" rel="noopener">View on GitHub <span aria-hidden="true">↗</span></a>
+              <button class="btn btn--line" data-open-shell>Try the shell <span class="mono" aria-hidden="true">distdb=&gt;</span></button>
+            </div>
+          </div>
+          <dl class="distdb__spec mono reveal" aria-label="DistDB at a glance">
+            <div><dt>language</dt><dd>Java 25</dd></div>
+            <div><dt>modules</dt><dd>15, layered (ArchUnit-enforced)</dd></div>
+            <div><dt>replication</dt><dd>Raft ×3 per range</dd></div>
+            <div><dt>isolation</dt><dd>snapshot · Percolator</dd></div>
+            <div><dt>protocol</dt><dd>PostgreSQL wire</dd></div>
+            <div><dt>observability</dt><dd>Prometheus · Grafana</dd></div>
+            <div><dt>status</dt><dd>10 / 10 phases ✓</dd></div>
+          </dl>
+        </header>
+
+        <figure class="distdb__art reveal">
+          <img src="assets/img/distdb.jpg" alt="Risograph illustration: five database nodes in a ring, the elected leader in red, above a layered storage block" loading="lazy" width="1600" height="900" />
+        </figure>
+
+        <!-- pillars -->
+        <div class="pillars">
+          <article class="pillar reveal">
+            <span class="mono pillar__k">storage</span>
+            <h3>Ranges ×3, on an LSM tree</h3>
+            <p>Data is split into ranges, and each range is replicated three ways with Raft. Underneath is a log-structured merge engine: WAL, group commit, SSTables, MVCC keys.</p>
+          </article>
+          <article class="pillar reveal">
+            <span class="mono pillar__k">transactions</span>
+            <h3>Snapshot isolation, cross-range</h3>
+            <p>Percolator-style two-phase commits, with timestamps from a Raft-replicated oracle in the placement driver. No dirty reads, lost updates or read skew.</p>
+          </article>
+          <article class="pillar reveal">
+            <span class="mono pillar__k">sql</span>
+            <h3>Speaks PostgreSQL</h3>
+            <p>Parser, binder and a cost-based planner that pushes filters and partial aggregates down to the ranges. Any node accepts <code>psql</code> or JDBC.</p>
+          </article>
+          <article class="pillar reveal">
+            <span class="mono pillar__k">testing</span>
+            <h3>Proven, then broken on purpose</h3>
+            <p>Each layer passed a deterministic simulator (partitions, power cuts, failing disks), then ran as real processes with <code>kill -9</code>, iptables partitions and clock skew.</p>
+          </article>
+        </div>
+
+        <!-- architecture -->
+        <div class="arch reveal">
+          <div class="arch__head">
+            <p class="mono eyebrow">How a statement travels</p>
+            <p class="arch__hint">Hover or tap a component.</p>
+          </div>
+          <div class="arch__body">
+            <svg class="arch__svg" id="archSvg" viewBox="0 0 760 360" role="img" aria-label="DistDB architecture: clients speak the PostgreSQL protocol to a SQL gateway on any data node, which runs Percolator transactions through a KV client to Raft-replicated ranges on an LSM engine, coordinated by a three-node placement driver.">
+              <defs>
+                <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+              </defs>
+              <g class="arch__edges" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M120 60 H190" marker-end="url(#ah)"/>
+                <path d="M300 84 V110" marker-end="url(#ah)"/>
+                <path d="M300 164 V190" marker-end="url(#ah)"/>
+                <path d="M410 218 H500" marker-end="url(#ah)"/>
+                <path d="M300 244 V276" marker-end="url(#ah)" stroke-dasharray="4 4"/>
+                <path d="M410 204 C 452 204, 452 86, 496 86" marker-end="url(#ah)"/>
+                <path d="M600 190 V120" marker-end="url(#ah)" stroke-dasharray="4 4"/>
+                <path d="M600 250 V292" marker-end="url(#ah)"/>
+              </g>
+              <g class="arch__labels mono">
+                <text x="126" y="50">pg wire</text>
+                <text x="430" y="234">gRPC</text>
+                <text x="460" y="150">TSO · locate</text>
+                <text x="608" y="160">heartbeats</text>
+                <text x="608" y="276">Raft</text>
+              </g>
+              <g class="arch__node" data-k="client"><rect x="10" y="36" width="110" height="48" rx="6"/><text x="65" y="65">psql · JDBC</text></g>
+              <g class="arch__node" data-k="gateway"><rect x="190" y="36" width="220" height="48" rx="6"/><text x="300" y="65">SQL gateway</text></g>
+              <g class="arch__node" data-k="txn"><rect x="190" y="110" width="220" height="54" rx="6"/><text x="300" y="142">Percolator transactions</text></g>
+              <g class="arch__node" data-k="kv"><rect x="190" y="190" width="220" height="54" rx="6"/><text x="300" y="222">KV client</text></g>
+              <g class="arch__node arch__node--red" data-k="store"><rect x="500" y="190" width="200" height="60" rx="6"/><text x="600" y="225">Store: ranges, Raft groups</text></g>
+              <g class="arch__node" data-k="lsm"><rect x="190" y="276" width="220" height="54" rx="6"/><text x="300" y="308">LSM engine</text></g>
+              <g class="arch__node" data-k="pd"><rect x="500" y="56" width="200" height="60" rx="6"/><text x="600" y="91">Placement driver ×3</text></g>
+              <g class="arch__node" data-k="peers"><rect x="500" y="292" width="200" height="48" rx="6"/><text x="600" y="321">other data nodes</text></g>
+            </svg>
+            <div class="arch__panel" id="archPanel" aria-live="polite">
+              <p class="mono arch__panel-k" id="archK">gateway</p>
+              <p id="archV">A statement can arrive at any node. That node parses, binds and plans it, then runs it as a transaction. Filters, projections and partial aggregates execute on the ranges themselves, and the gateway merges the results.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- numbers -->
+        <div class="numbers">
+          <div class="num reveal"><span class="num__v" data-count="11" data-suffix="×">11×</span><p>more fsynced writes per second from <strong>group commit</strong> (1,382 → 15,581 ops/s at 16 threads); p99 from 195 ms to 4 ms.</p></div>
+          <div class="num reveal"><span class="num__v" data-count="10.3" data-suffix="×" data-dec="1">10.3×</span><p>SQL point-update throughput from <strong>batching timestamp requests</strong> to the oracle.</p></div>
+          <div class="num reveal"><span class="num__v" data-count="99.5" data-suffix="%" data-dec="1">99.5%</span><p>fewer network bytes at the gateway with <strong>coprocessor pushdown</strong>, and aggregations 1.8× faster.</p></div>
+          <div class="num reveal"><span class="num__v" data-count="1.1" data-suffix=" s" data-dec="1">1.1 s</span><p>to get back to 90% throughput after a <code>kill -9</code> of the node leading the most ranges.</p></div>
+          <div class="num reveal"><span class="num__v" data-count="2000" data-suffix="">2000</span><p>units of money still in the bank after <strong>10 injected faults</strong>, 1,111 transfers and 203 audits. None lost, none created.</p></div>
+          <div class="num reveal"><span class="num__v" data-count="5000" data-suffix="">5000</span><p>simulated seeds in the Raft gate: lossy networks, partitions, power cuts, membership changes. The history must stay <strong>linearizable</strong>.</p></div>
+        </div>
+        <p class="numbers__note mono">All measured on a single laptop (i5-13420H, NVMe, Windows 11). With every node on the same machine, “3 nodes” shows the cost of coordination, not scale-out. On NTFS an fsync costs about 2 ms, which caps write throughput.</p>
+
+        <!-- phases -->
+        <div class="phases reveal">
+          <p class="mono eyebrow">Ten phases, each with a gate it had to pass</p>
+          <ol class="phases__list">
+            <li><span class="mono">01</span>Foundations &amp; determinism seams</li>
+            <li><span class="mono">02</span>LSM engine, crash-tested</li>
+            <li><span class="mono">03</span>KV server over gRPC</li>
+            <li><span class="mono">04</span>Raft + deterministic simulator</li>
+            <li><span class="mono">05</span>Replicated, linearizable KV</li>
+            <li><span class="mono">06</span>Multi-Raft, sharding, placement driver</li>
+            <li><span class="mono">07</span>Percolator transactions</li>
+            <li><span class="mono">08</span>SQL + PostgreSQL wire protocol</li>
+            <li><span class="mono">09</span>Distributed execution, cost-based optimizer</li>
+            <li><span class="mono">10</span>Chaos suite, benchmarks, observability</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────── PROJECTS ─────────────── -->
+    <section class="section" id="work">
+      <header class="section__head">
+        <p class="mono eyebrow"><span class="ink-red">03</span> / More projects</p>
+        <h2 class="display-2 reveal">Other <em>ranges</em> of the keyspace.</h2>
+        <p class="section__intro reveal">Full-stack, cloud and desktop projects built at INPT and on my own.</p>
+      </header>
+
+      <div class="cards">
+        <article class="card reveal">
+          <a class="card__link" href="https://github.com/hamoudiayoub/HireFlow-ATS" target="_blank" rel="noopener" aria-label="HireFlow ATS on GitHub"></a>
+          <figure class="card__art"><img src="assets/img/hireflow.jpg" alt="Risograph illustration of resumes passing through a magnifying glass into a ranked list" loading="lazy" width="1200" height="900" /></figure>
+          <div class="card__body">
+            <p class="mono card__k">AI · Full-stack</p>
+            <h3>HireFlow ATS</h3>
+            <p>An applicant tracking system that recruiters can search in plain language. Uploaded résumés are parsed into MySQL, and an LLM (Grok through OpenRouter) ranks candidates and explains each match. It also tells verified skills apart from hobbies.</p>
+            <ul class="stack mono"><li>React · Vite</li><li>Tailwind v4</li><li>Node · Express</li><li>MySQL</li><li>OpenRouter</li></ul>
+            <span class="card__go mono">GitHub ↗</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <a class="card__link" href="https://github.com/hamoudiayoub/travelo-k8s" target="_blank" rel="noopener" aria-label="Travelo Kubernetes on GitHub"></a>
+          <figure class="card__art"><img src="assets/img/travelo.jpg" alt="Risograph illustration of a paper airplane over stacked shipping containers" loading="lazy" width="1200" height="900" /></figure>
+          <div class="card__body">
+            <p class="mono card__k">Cloud · DevOps</p>
+            <h3>Travelo, containerized &amp; orchestrated</h3>
+            <p>A three-tier travel app (Spring Boot, React, MySQL) that I took from Docker Compose to a private registry and Docker Swarm, then to Kubernetes: a MySQL StatefulSet, replicated deployments, probes, quotas, least-privilege RBAC, PodDisruptionBudgets and Ingress.</p>
+            <ul class="stack mono"><li>Docker</li><li>Swarm</li><li>Kubernetes</li><li>RBAC</li><li>Ingress</li></ul>
+            <span class="card__go mono">GitHub ↗</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <a class="card__link" href="https://github.com/hamoudiayoub/orientLamp_back" target="_blank" rel="noopener" aria-label="OrientLamp backend on GitHub"></a>
+          <figure class="card__art"><img src="assets/img/orientlamp.jpg" alt="Risograph illustration of a desk lamp lighting a crossroads with a graduation cap" loading="lazy" width="1200" height="900" /></figure>
+          <div class="card__body">
+            <p class="mono card__k">Backend · INPT Junior Enterprise</p>
+            <h3>OrientLamp</h3>
+            <p>An academic orientation platform that helps students choose programs and careers. It was built at A2S, INPT's Junior Enterprise, by a five-person Scrum team. I was one of two backend developers: Spring Boot, JWT authentication with email verification, MySQL and Redis on Docker Compose. Version 1 shipped.</p>
+            <ul class="stack mono"><li>Spring Boot</li><li>JWT</li><li>MySQL</li><li>Redis</li><li>Docker</li><li>Scrum</li></ul>
+            <span class="card__go mono">GitHub ↗</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <a class="card__link" href="https://github.com/hamoudiayoub/AutoExam" target="_blank" rel="noopener" aria-label="AutoExam on GitHub"></a>
+          <figure class="card__art"><img src="assets/img/autoexam.jpg" alt="Risograph illustration of gears ticking checkboxes on an exam sheet" loading="lazy" width="1200" height="900" /></figure>
+          <div class="card__body">
+            <p class="mono card__k">Desktop · OOP</p>
+            <h3>AutoExam</h3>
+            <p>A JavaFX desktop app where teachers build exams and students take them, with automatic grading and report cards. It uses MVC, abstract classes and polymorphism, custom exceptions, and JDBC with prepared statements.</p>
+            <ul class="stack mono"><li>Java</li><li>JavaFX</li><li>MySQL</li><li>JDBC</li><li>MVC</li></ul>
+            <span class="card__go mono">GitHub ↗</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ─────────────── ABOUT / SPEC ─────────────── -->
+    <section class="section spec" id="about">
+      <header class="section__head">
+        <p class="mono eyebrow"><span class="ink-red">§</span> / Spec sheet</p>
+        <h2 class="display-2 reveal"><code class="sql">SHOW</code> <em>ayoub</em>;</h2>
+      </header>
+      <div class="spec__grid">
+        <dl class="spec__table reveal">
+          <div><dt class="mono">school</dt><dd>INPT, Rabat: engineering cycle in <strong>Advanced Software Engineering for Digital Services</strong> (ASEDS)</dd></div>
+          <div><dt class="mono">before</dt><dd>CPGE PSI in Marrakech. Ranked <strong>12th nationally</strong> in the CNC entrance exam.</dd></div>
+          <div><dt class="mono">languages</dt><dd>Arabic · French · English</dd></div>
+          <div><dt class="mono">curious about</dt><dd>Inference engineering, cybersecurity</dd></div>
+          <div><dt class="mono">off-screen</dt><dd>Debate club &amp; volunteering. On Safer Internet Day 2026, I co-led a middle-school session on AI and fake news.</dd></div>
+        </dl>
+        <div class="spec__stack reveal">
+          <div class="group"><p class="mono">languages</p><ul class="stack mono"><li>Java</li><li>Python</li><li>TypeScript</li><li>JavaScript</li><li>Dart</li><li>SQL</li></ul></div>
+          <div class="group"><p class="mono">distributed &amp; cloud</p><ul class="stack mono"><li>Raft</li><li>gRPC</li><li>Docker</li><li>Kubernetes</li><li>Prometheus</li><li>Grafana</li></ul></div>
+          <div class="group"><p class="mono">backend</p><ul class="stack mono"><li>Spring Boot</li><li>FastAPI</li><li>Django</li><li>Flask</li><li>Node · Express</li></ul></div>
+          <div class="group"><p class="mono">mobile &amp; web</p><ul class="stack mono"><li>Flutter</li><li>React Native · Expo</li><li>React</li><li>Next.js</li><li>Tailwind</li></ul></div>
+          <div class="group"><p class="mono">data</p><ul class="stack mono"><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>Redis</li></ul></div>
+          <div class="group"><p class="mono">ai / llm</p><ul class="stack mono"><li>Qwen2.5</li><li>Gemini</li><li>MediaPipe</li><li>OpenRouter</li><li>Claude API</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────── CONTACT ─────────────── -->
+    <section class="contact" id="contact">
+      <p class="mono eyebrow"><span class="ink-red">04</span> / Contact</p>
+      <h2 class="contact__title reveal">Let's reach <em>consensus</em>.</h2>
+      <p class="contact__lede reveal">Internships, projects, or a conversation about consensus, inference or mobile UX. A quorum of one is enough to start.</p>
+      <div class="contact__links reveal">
+        <a class="big-link" href="mailto:hamoudiayoub891@gmail.com"><span class="mono">email</span>hamoudiayoub891@gmail.com</a>
+        <a class="big-link" href="https://www.linkedin.com/in/ayoub-hamoudi-1a259b375/" target="_blank" rel="noopener"><span class="mono">linkedin</span>Ayoub Hamoudi ↗</a>
+        <a class="big-link" href="https://github.com/hamoudiayoub" target="_blank" rel="noopener"><span class="mono">github</span>@hamoudiayoub ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer mono">
+    <span>© 2026 Ayoub Hamoudi</span>
+    <span>Illustrations generated with Higgsfield · hand-written HTML, CSS &amp; JS</span>
+    <span>Press <kbd>/</kbd> to open the shell</span>
+  </footer>
+
+  <!-- ─────────────── SHELL ─────────────── -->
+  <div class="shell" id="shell" role="dialog" aria-modal="true" aria-labelledby="shellTitle" hidden>
+    <div class="shell__win">
+      <div class="shell__bar mono">
+        <span class="shell__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span id="shellTitle">distdb sql · 127.0.0.1:5433 · ayoub</span>
+        <button class="shell__close" id="shellClose" aria-label="Close the shell">esc</button>
+      </div>
+      <div class="shell__out mono" id="shellOut" tabindex="-1"></div>
+      <div class="shell__chips mono" id="shellChips"></div>
+      <form class="shell__in mono" id="shellForm" autocomplete="off">
+        <label for="shellInput" id="shellPrompt">distdb=&gt;</label>
+        <input id="shellInput" spellcheck="false" autocapitalize="off" aria-label="SQL command" />
+      </form>
+    </div>
+  </div>
+
+  <script src="js/main.js?v=2" defer></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# full-resolution Higgsfield renders (the site uses the optimized copies in assets/img)
+_higgsfield-originals/
+
+# local tooling
+.claude/
+.DS_Store
+Thumbs.db
