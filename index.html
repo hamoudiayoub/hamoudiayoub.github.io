@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=8" />
+  <link rel="stylesheet" href="css/style.css?v=9" />
   <script>
     document.documentElement.classList.add('js');
     try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
@@ -97,10 +97,11 @@
         <figure class="hero__portrait reveal">
           <div class="frame">
             <div class="flipbook" id="flipbook" data-pose="type" role="img" aria-label="Animated illustration of Ayoub Hamoudi typing code on a laptop, taking a sip of coffee, then typing again">
-              <img class="flip is-on" src="assets/img/office/f0-type.webp" alt="" width="760" height="1013" fetchpriority="high" />
-              <img class="flip" data-src="assets/img/office/f1-type.webp" alt="" width="760" height="1013" />
-              <img class="flip" data-src="assets/img/office/f2-lift.webp" alt="" width="760" height="1013" />
-              <img class="flip" data-src="assets/img/office/f3-sip.webp" alt="" width="760" height="1013" />
+              <img class="flip is-on" data-k="typeA" src="assets/img/office/type-a.webp" alt="" width="760" height="1013" fetchpriority="high" />
+              <img class="flip" data-k="typeB" data-src="assets/img/office/type-b.webp" alt="" width="760" height="1013" />
+              <img class="flip" data-k="reach" data-src="assets/img/office/reach.webp" alt="" width="760" height="1013" />
+              <img class="flip" data-k="lift" data-src="assets/img/office/lift.webp" alt="" width="760" height="1013" />
+              <img class="flip" data-k="sip" data-src="assets/img/office/sip.webp" alt="" width="760" height="1013" />
               <svg class="steam" viewBox="0 0 60 100" aria-hidden="true">
                 <path d="M18 96 C 8 80, 28 70, 18 54 S 26 30, 18 14" />
                 <path d="M32 96 C 22 82, 42 70, 32 56 S 40 34, 32 18" />
@@ -501,6 +502,6 @@
   </div>
 
   <script src="js/i18n.js?v=2" defer></script>
-  <script src="js/main.js?v=4" defer></script>
+  <script src="js/main.js?v=6" defer></script>
 </body>
 </html>

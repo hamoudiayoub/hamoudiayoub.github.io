@@ -130,23 +130,43 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   $$('.reveal').forEach((el) => revealIO.observe(el));
 
-  /* ───────────── 1b. hero flipbook: type, sip, type ─────────────
-     Four risograph frames stacked in .flipbook. Typing swaps two frames whose
-     only difference is the hands; the coffee break crossfades lift → sip → lift. */
+  /* ───────────── 1b. hero flipbook: type, coffee, type ─────────────
+     Five risograph frames stacked in .flipbook, all composited onto the same
+     background so only the hands, the arm, the mug and the face ever change.
+     Typing swaps two frames that differ only in the fingers (hard cuts read as
+     keystrokes). The coffee break crossfades reach → lift → sip and back: each
+     new pose fades in on top of the previous one, eased, like a motion blur.  */
   (() => {
     const box = $('#flipbook');
     if (!box || reduced) return;
-    const [type0, type1, lift, sip] = $$('.flip', box);
-    let cur = type0, visible = true;
+    const F = {};
+    $$('.flip', box).forEach((img) => { F[img.dataset.k] = img; });
+    let cur = F.typeA, prev = null, visible = true;
     new IntersectionObserver((es) => { visible = es[0].isIntersecting; }).observe(box);
     const wait = (ms) => new Promise((r) => setTimeout(r, ms));
     const awake = async () => { while (!visible || document.hidden) await wait(300); };
-    const show = (img, pose, fade) => {
+
+    // cut (fade = 0) or crossfade (fade = ms) to the frame named k
+    const retire = (img) => { img.classList.remove('is-prev'); img.style.opacity = ''; img.style.transition = ''; };
+    const show = async (k, pose, fade = 0) => {
       box.dataset.pose = pose;
+      const img = F[k];
       if (img === cur) return;
-      img.classList.toggle('fade', fade); cur.classList.toggle('fade', fade);
-      img.classList.add('is-on'); cur.classList.remove('is-on');
-      cur = img;
+      if (prev) retire(prev);
+      cur.classList.remove('is-on');
+      cur.classList.add('is-prev');
+      prev = cur; cur = img;
+      img.style.transition = 'none';
+      img.style.opacity = '0';
+      img.classList.add('is-on');
+      if (fade) {
+        void img.offsetWidth; // commit opacity 0 before animating
+        img.style.transition = `opacity ${fade}ms cubic-bezier(.45, 0, .55, 1)`;
+      }
+      img.style.opacity = '1';
+      // the previous pose stays underneath until the next change, so a fade
+      // that the browser pauses (background tab) never shows an empty frame
+      if (fade) await wait(fade);
     };
     const load = (img) => new Promise((res) => {
       if (img.dataset.src && !img.getAttribute('src')) img.src = img.dataset.src;
@@ -155,25 +175,29 @@
       img.addEventListener('error', res, { once: true });
     });
     const start = async () => {
-      await Promise.all([type1, lift, sip].map(load));
-      if ([type1, lift, sip].some((i) => !i.naturalWidth)) return; // keep the still frame
-      await wait(900);
+      const rest = [F.typeB, F.reach, F.lift, F.sip];
+      await Promise.all(rest.map(load));
+      if (rest.some((i) => !i.naturalWidth)) return; // keep the still frame
+      await Promise.all(rest.map((i) => (i.decode ? i.decode().catch(() => {}) : null)));
+      await wait(700);
       for (;;) {
         await awake();
         // a burst of typing, with the odd pause to think
-        const until = performance.now() + 2800 + Math.random() * 1600;
-        let k = 0;
+        const until = performance.now() + 3200 + Math.random() * 1600;
+        let n = 0;
         while (performance.now() < until) {
-          show(k++ % 2 ? type1 : type0, 'type', false);
-          await wait(85 + Math.random() * 110);
-          if (Math.random() < 0.07) await wait(420);
+          await show(n++ % 2 ? 'typeB' : 'typeA', 'type');
+          await wait(80 + Math.random() * 120);
+          if (Math.random() < 0.06) await wait(380);
         }
-        show(type0, 'type', false); await wait(650);
-        // coffee break
-        show(lift, 'lift', true); await wait(420);
-        show(sip, 'sip', true); await wait(1500);
-        show(lift, 'lift', true); await wait(420);
-        show(type0, 'type', true); await wait(500);
+        await show('typeA', 'type'); await wait(450);
+        // coffee: reach, lift, sip ... and back
+        await show('reach', 'reach', 300); await wait(220);
+        await show('lift', 'lift', 340); await wait(140);
+        await show('sip', 'sip', 360); await wait(1300);
+        await show('lift', 'lift', 340); await wait(120);
+        await show('reach', 'reach', 300); await wait(180);
+        await show('typeA', 'type', 300); await wait(350);
       }
     };
     if (document.readyState === 'complete') start();
