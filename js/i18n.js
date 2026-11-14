@@ -26,7 +26,7 @@ window.I18N_FR = {
     [`See my experience <span aria-hidden="true">↓</span>`, `Voir mon expérience <span aria-hidden="true">↓</span>`],
     [`Distributed systems`, `Systèmes distribués`],
     [`AI / LLM`, `IA / LLM`],
-    [`fig. 01: the engineer, printed in two inks.`, `fig. 01 : l'ingénieur, imprimé en deux encres.`],
+    [`fig. 01: the engineer at work. Code, coffee, repeat.`, `fig. 01 : l'ingénieur au travail. Du code, un café, et on recommence.`],
 
     // cluster
     [`<span class="ink-red">fig. 02</span>: a live Raft cluster, running in your browser.`,
@@ -219,7 +219,7 @@ window.I18N_FR = {
     [`Toggle dark mode`, `Activer ou désactiver le mode sombre`],
     [`Toggle theme`, `Changer de thème`],
     [`Focus areas`, `Domaines`],
-    [`Portrait of Ayoub Hamoudi, printed in blue and red risograph ink`, `Portrait d'Ayoub Hamoudi, imprimé à l'encre risographique bleue et rouge`],
+    [`Animated illustration of Ayoub Hamoudi typing code on a laptop, taking a sip of coffee, then typing again`, `Illustration animée d'Ayoub Hamoudi qui tape du code sur son ordinateur, boit une gorgée de café, puis reprend`],
     [`Animated diagram of five nodes electing a leader with the Raft consensus algorithm`, `Schéma animé de cinq nœuds qui élisent un leader avec l'algorithme de consensus Raft`],
     [`Risograph illustration of a car with radar pulses and price tags`, `Illustration risographique d'une voiture avec des ondes radar et des étiquettes de prix`],
     [`Risograph illustration of a phone with a face mesh, a comb, a dumbbell and a chat bubble`, `Illustration risographique d'un téléphone avec un maillage de visage, un peigne, un haltère et une bulle de discussion`],

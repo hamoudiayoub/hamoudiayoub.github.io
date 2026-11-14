@@ -219,6 +219,27 @@ html:not([lang="fr"]) .lang:hover [data-l="en"], html[lang="fr"] .lang:hover [da
 }
 .hero__portrait:hover .frame { transform: rotate(0deg) translateY(-4px); }
 .frame img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+
+/* hero flipbook: stacked risograph frames, swapped by js/main.js */
+.flipbook { position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: #F2EDE3; }
+.flipbook .flip { position: absolute; inset: 0; height: 100%; opacity: 0; }
+.flipbook .flip.is-on { opacity: 1; }
+.flipbook .flip.fade { transition: opacity .18s linear; }
+/* steam over the mug while it sits on the desk */
+.steam {
+  position: absolute; left: 74%; top: 57%; width: 18%; height: 23%;
+  fill: none; stroke-width: 3.4; stroke-linecap: round; overflow: visible;
+  transition: opacity .25s;
+}
+.steam path { stroke: #E8462B; opacity: 0; animation: steam 2.6s ease-in-out infinite; }
+.steam path:nth-child(2) { stroke: #2B3BD6; animation-delay: .85s; }
+.steam path:nth-child(3) { animation-delay: 1.7s; }
+@keyframes steam {
+  0% { opacity: 0; transform: translateY(18%) scaleY(.7); }
+  35% { opacity: .8; }
+  100% { opacity: 0; transform: translateY(-22%) scaleY(1.05); }
+}
+.flipbook:not([data-pose="type"]) .steam { opacity: 0; }
 .frame__tag {
   position: absolute; top: -12px; left: 18px; padding: 3px 9px;
   background: var(--red); color: #fff; font-size: 11px; transform: rotate(-3deg);

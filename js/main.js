@@ -130,6 +130,56 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   $$('.reveal').forEach((el) => revealIO.observe(el));
 
+  /* ───────────── 1b. hero flipbook: type, sip, type ─────────────
+     Four risograph frames stacked in .flipbook. Typing swaps two frames whose
+     only difference is the hands; the coffee break crossfades lift → sip → lift. */
+  (() => {
+    const box = $('#flipbook');
+    if (!box || reduced) return;
+    const [type0, type1, lift, sip] = $$('.flip', box);
+    let cur = type0, visible = true;
+    new IntersectionObserver((es) => { visible = es[0].isIntersecting; }).observe(box);
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const awake = async () => { while (!visible || document.hidden) await wait(300); };
+    const show = (img, pose, fade) => {
+      box.dataset.pose = pose;
+      if (img === cur) return;
+      img.classList.toggle('fade', fade); cur.classList.toggle('fade', fade);
+      img.classList.add('is-on'); cur.classList.remove('is-on');
+      cur = img;
+    };
+    const load = (img) => new Promise((res) => {
+      if (img.dataset.src && !img.getAttribute('src')) img.src = img.dataset.src;
+      if (img.complete && img.naturalWidth) return res();
+      img.addEventListener('load', res, { once: true });
+      img.addEventListener('error', res, { once: true });
+    });
+    const start = async () => {
+      await Promise.all([type1, lift, sip].map(load));
+      if ([type1, lift, sip].some((i) => !i.naturalWidth)) return; // keep the still frame
+      await wait(900);
+      for (;;) {
+        await awake();
+        // a burst of typing, with the odd pause to think
+        const until = performance.now() + 2800 + Math.random() * 1600;
+        let k = 0;
+        while (performance.now() < until) {
+          show(k++ % 2 ? type1 : type0, 'type', false);
+          await wait(85 + Math.random() * 110);
+          if (Math.random() < 0.07) await wait(420);
+        }
+        show(type0, 'type', false); await wait(650);
+        // coffee break
+        show(lift, 'lift', true); await wait(420);
+        show(sip, 'sip', true); await wait(1500);
+        show(lift, 'lift', true); await wait(420);
+        show(type0, 'type', true); await wait(500);
+      }
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+  })();
+
   /* ───────────── 2. live Raft cluster ───────────── */
   const Raft = (() => {
     const svg = $('#clusterSvg');
