@@ -1,14 +1,119 @@
 /* Ayoub Hamoudi · portfolio
-   1. theme + reveal  2. live Raft cluster  3. DistDB architecture
-   4. counters        5. the distdb=> shell                                  */
+   0. language (EN/FR)  1. theme + reveal  2. live Raft cluster
+   3. DistDB architecture  4. counters  5. the distdb=> shell                */
 (() => {
   'use strict';
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
+
+  /* ───────────── 0. language ─────────────
+     English lives in index.html. French comes from js/i18n.js, keyed by the
+     English innerHTML (whitespace collapsed) of each text block.            */
+  const FR = window.I18N_FR || { meta: {}, html: new Map(), attr: new Map() };
+  const STR = {
+    en: {
+      leader: 'leader', follower: 'follower', candidate: 'candidate', dead: 'crashed',
+      boot: 'boot: 5 nodes, all followers, term 0',
+      stepsDown: (t) => `steps down (term ${t})`,
+      timedOut: (t) => `timed out → candidate, term ${t}`,
+      elected: (v, n, t) => `elected leader with ${v}/${n} votes · term ${t}`,
+      crashedLeader: 'crashed (it was the leader!)',
+      crashed: 'crashed (kill -9)',
+      restarted: (t) => `restarted, keeps term ${t} from disk`,
+      lostQuorum: 'lost its quorum, steps down',
+      noQuorum: (a, n) => `no quorum (${a}/${n} up): refusing writes`,
+      navLeader: (id, t) => `leader n${id} · term ${t}`,
+      navNoQuorum: 'no quorum', navElecting: 'electing…',
+      nodeAria: (i, s, t, alive) => alive
+        ? `Node ${i}, ${s}, term ${t}. Press to crash it.`
+        : `Node ${i}, crashed. Press to restart it.`,
+      langBtn: 'Passer en français',
+    },
+    fr: {
+      leader: 'leader', follower: 'suiveur', candidate: 'candidat', dead: 'en panne',
+      boot: 'démarrage : 5 nœuds, tous suiveurs, terme 0',
+      stepsDown: (t) => `redevient suiveur (terme ${t})`,
+      timedOut: (t) => `délai écoulé → candidat, terme ${t}`,
+      elected: (v, n, t) => `élu leader avec ${v}/${n} votes · terme ${t}`,
+      crashedLeader: 'tombé en panne (c\'était le leader !)',
+      crashed: 'tombé en panne (kill -9)',
+      restarted: (t) => `redémarré, garde le terme ${t} sur disque`,
+      lostQuorum: 'a perdu son quorum, redevient suiveur',
+      noQuorum: (a, n) => `pas de quorum (${a}/${n} en ligne) : écritures refusées`,
+      navLeader: (id, t) => `leader n${id} · terme ${t}`,
+      navNoQuorum: 'pas de quorum', navElecting: 'élection…',
+      nodeAria: (i, s, t, alive) => alive
+        ? `Nœud ${i}, ${s}, terme ${t}. Appuyez pour le faire tomber.`
+        : `Nœud ${i}, en panne. Appuyez pour le redémarrer.`,
+      langBtn: 'Switch to English',
+    },
+  };
+  let lang = 'en';
+  const t = (k, ...a) => {
+    const v = STR[lang][k] !== undefined ? STR[lang][k] : STR.en[k];
+    return typeof v === 'function' ? v(...a) : v;
+  };
+
+  const I18N_SKIP = '.stack, .marquee, script, style, noscript, [data-count], .shell, #clusterSvg, #clusterLog, #navStatusText, #archK, #archV, .lang, .grain';
+  const norm = (h) => h.replace(/\s+/g, ' ').trim();
+  const textBlocks = [];
+  (function collect(el) {
+    if (el.matches(I18N_SKIP)) return;
+    const hasText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+    if (hasText) { textBlocks.push({ el, en: el.innerHTML, key: norm(el.innerHTML) }); return; }
+    for (const c of el.children) collect(c);
+  })(document.body);
+  const attrBlocks = [];
+  $$('[alt], [aria-label], [title]').forEach((el) => {
+    if (el.closest('#clusterSvg, .lang')) return;
+    ['alt', 'aria-label', 'title'].forEach((a) => {
+      const v = el.getAttribute(a);
+      if (v && FR.attr.has(v)) attrBlocks.push({ el, a, en: v });
+    });
+  });
+  const metaDesc = $('meta[name="description"]');
+  const EN_META = { title: document.title, description: metaDesc ? metaDesc.content : '' };
+  const langListeners = [];
+  const onLang = (fn) => langListeners.push(fn);
+
+  function setLang(next, { save = false } = {}) {
+    lang = next === 'fr' ? 'fr' : 'en';
+    root.lang = lang;
+    const fr = lang === 'fr';
+    textBlocks.forEach((b) => {
+      const v = fr ? FR.html.get(b.key) : null;
+      const html = v !== undefined && v !== null ? v : b.en;
+      if (b.el.innerHTML !== html) b.el.innerHTML = html;
+    });
+    attrBlocks.forEach((b) => b.el.setAttribute(b.a, fr ? FR.attr.get(b.en) : b.en));
+    document.title = fr && FR.meta.title ? FR.meta.title : EN_META.title;
+    if (metaDesc) metaDesc.content = fr && FR.meta.description ? FR.meta.description : EN_META.description;
+    const btn = $('#langBtn');
+    if (btn) { btn.setAttribute('aria-label', t('langBtn')); btn.setAttribute('aria-pressed', String(fr)); }
+    if (save) {
+      try { localStorage.setItem('lang', lang); } catch (e) { /* storage blocked */ }
+      try {
+        const u = new URL(location.href);
+        if (fr) u.searchParams.set('lang', 'fr'); else u.searchParams.delete('lang');
+        history.replaceState(null, '', u);
+      } catch (e) { /* ignore */ }
+    }
+    langListeners.forEach((fn) => fn(lang));
+  }
+  function detectLang() {
+    const q = new URLSearchParams(location.search).get('lang');
+    if (q === 'fr' || q === 'en') return q;
+    try { const s = localStorage.getItem('lang'); if (s === 'fr' || s === 'en') return s; } catch (e) { /* ignore */ }
+    const prefs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en'];
+    return /^fr\b/i.test(prefs[0] || '') ? 'fr' : 'en';
+  }
+  setLang(detectLang());
+  const langBtn = $('#langBtn');
+  if (langBtn) langBtn.addEventListener('click', () => setLang(lang === 'fr' ? 'en' : 'fr', { save: true }));
 
   /* ───────────── 1. theme + reveal ───────────── */
-  const root = document.documentElement;
   const isDark = () => root.dataset.theme
     ? root.dataset.theme === 'dark'
     : matchMedia('(prefers-color-scheme: dark)').matches;
@@ -106,28 +211,28 @@
 
     function becomeFollower(n, term) {
       if (term > n.term) { n.term = term; n.votedFor = null; }
-      if (n.state === 'leader') log(`n${n.id + 1}`, `steps down (term ${n.term})`);
+      if (n.state === 'leader') log(`n${n.id + 1}`, t('stepsDown', n.term));
       n.state = 'follower';
     }
     function startElection(n) {
       n.state = 'candidate'; n.term += 1; n.votedFor = n.id; n.votes = new Set([n.id]);
       resetTimer(n);
-      log(`n${n.id + 1}`, `timed out → candidate, term ${n.term}`);
+      log(`n${n.id + 1}`, t('timedOut', n.term));
       nodes.forEach((m) => { if (m.id !== n.id) send(n.id, m.id, 'rv', n.term); });
     }
     function becomeLeader(n) {
       n.state = 'leader'; n.nextHb = now; n.leaderSince = now; n.lastAck = {};
-      log(`n${n.id + 1}`, `elected leader with ${n.votes.size}/${N} votes · term ${n.term}`, true);
+      log(`n${n.id + 1}`, t('elected', n.votes.size, N, n.term), true);
     }
     function crash(n) {
       const wasLeader = n.state === 'leader';
       n.alive = false; n.state = 'dead';
-      log(`n${n.id + 1}`, wasLeader ? 'crashed (it was the leader!)' : 'crashed (kill -9)', true);
+      log(`n${n.id + 1}`, wasLeader ? t('crashedLeader') : t('crashed'), true);
       render();
     }
     function restart(n) {
       n.alive = true; n.state = 'follower'; n.votes = new Set(); resetTimer(n);
-      log(`n${n.id + 1}`, `restarted, keeps term ${n.term} from disk`);
+      log(`n${n.id + 1}`, t('restarted', n.term));
       render();
     }
 
@@ -174,7 +279,7 @@
           const window = 2 * HB + 2 * MSG;
           if (now - n.leaderSince > window) {
             const heard = 1 + Object.values(n.lastAck).filter((t) => now - t < window).length;
-            if (heard < MAJ) { log(`n${n.id + 1}`, 'lost its quorum, steps down', true); n.state = 'follower'; resetTimer(n); }
+            if (heard < MAJ) { log(`n${n.id + 1}`, t('lostQuorum'), true); n.state = 'follower'; resetTimer(n); }
           }
         } else if (now >= n.deadline) {
           startElection(n);
@@ -202,17 +307,17 @@
         n.g.setAttribute('class', `cn is-${n.state}`);
         const remaining = n.alive && n.state !== 'leader' ? Math.max(0, (n.deadline - now) / n.tlen) : 0;
         n.timer.setAttribute('stroke-dasharray', `${C * remaining} ${C}`);
-        n.sub.textContent = n.alive ? `${n.state} · t${n.term}` : 'crashed';
-        n.g.setAttribute('aria-label', `Node ${n.id + 1}, ${n.alive ? n.state + ', term ' + n.term : 'crashed'}. Press to ${n.alive ? 'crash' : 'restart'} it.`);
+        n.sub.textContent = n.alive ? `${t(n.state)} · t${n.term}` : t('dead');
+        n.g.setAttribute('aria-label', t('nodeAria', n.id + 1, t(n.state), n.term, n.alive));
       });
       const L = leader();
       const alive = aliveCount();
-      quorumText.textContent = alive < MAJ ? `no quorum (${alive}/${N} up): refusing writes` : '';
+      quorumText.textContent = alive < MAJ ? t('noQuorum', alive, N) : '';
       if (L) {
-        navText.textContent = `leader n${L.id + 1} · term ${L.term}`;
+        navText.textContent = t('navLeader', L.id + 1, L.term);
         navPill.classList.remove('is-down');
       } else {
-        navText.textContent = alive < MAJ ? 'no quorum' : 'electing…';
+        navText.textContent = alive < MAJ ? t('navNoQuorum') : t('navElecting');
         navPill.classList.add('is-down');
       }
     }
@@ -224,7 +329,7 @@
       if (visible && !document.hidden) { now += dt; tick(); render(); }
       requestAnimationFrame(frame);
     }
-    log('cluster', 'boot: 5 nodes, all followers, term 0');
+    log('cluster', t('boot'));
     render();
     requestAnimationFrame(frame);
 
@@ -244,13 +349,28 @@
     pd: ['Placement driver ×3', 'Three PD nodes, replicated with Raft. They keep the range directory, run the timestamp oracle (TSO), split ranges that grow, rebalance replicas and replace the replicas of nodes that die.'],
     peers: ['other data nodes', 'Kill any node, PD or data, and the cluster keeps serving. After a kill -9 of the busiest leader, throughput is back to 90% within 1.1 s, roughly one Raft election timeout.'],
   };
+  const ARCH_FR = {
+    client: ['client', 'N\'importe quel client PostgreSQL fonctionne : psql, JDBC, ou le terminal de DistDB, avec coloration syntaxique, complétion par Tab et EXPLAIN ANALYZE affiché en arbre avec une barre de temps par opérateur.'],
+    gateway: ['passerelle SQL', 'Une requête peut arriver sur n\'importe quel nœud. Ce nœud l\'analyse, la résout et la planifie avec un optimiseur basé sur les coûts, puis l\'exécute comme une transaction. Filtres, projections et agrégats partiels s\'exécutent directement sur les ranges, et la passerelle fusionne les résultats.'],
+    txn: ['transactions Percolator', 'Chaque clé est d\'abord pré-écrite, puis la transaction est validée via un verrou primaire. On obtient une isolation snapshot entre ranges, avec des timestamps de début et de validation fournis par l\'oracle du placement driver. Un GC supprime les anciennes versions.'],
+    kv: ['client KV', 'Le client KV garde en cache l\'emplacement de chaque range, suit les redirections vers le leader Raft actuel et relance les requêtes sans risque. Lectures, pré-écritures, validations et fragments SQL délégués passent par gRPC.'],
+    store: ['Store : ranges, groupes Raft', 'Chaque nœud de données porte de nombreuses ranges, et chaque range forme son propre groupe Raft de trois répliques. Lectures et écritures passent par le leader de la range, qui confirme son rôle avec ReadIndex. Le pipelining et le batching gardent les requêtes en vol.'],
+    lsm: ['moteur LSM', 'Un journal d\'écriture (WAL) avec group commit, des memtables vidées en SSTables, de la compaction et des clés encodées MVCC. Testé aux crashs avec 500 seeds et 2 000 000 d\'opérations de modèle.'],
+    pd: ['placement driver ×3', 'Trois nœuds PD, répliqués avec Raft. Ils tiennent l\'annuaire des ranges, font tourner l\'oracle de timestamps (TSO), découpent les ranges qui grossissent, rééquilibrent les répliques et remplacent celles des nœuds qui tombent.'],
+    peers: ['autres nœuds de données', 'Faites tomber n\'importe quel nœud, PD ou données, et le cluster continue de répondre. Après un kill -9 du leader le plus chargé, le débit revient à 90 % en 1,1 s, environ un délai d\'élection Raft.'],
+  };
   const archNodes = $$('.arch__node');
   const archK = $('#archK'), archV = $('#archV');
+  let archActive = archNodes.find((g) => g.dataset.k === 'gateway') || null;
   const showArch = (g) => {
+    if (!g) return;
+    archActive = g;
     archNodes.forEach((x) => x.classList.toggle('is-active', x === g));
-    const [k, v] = ARCH[g.dataset.k];
+    const [k, v] = (lang === 'fr' ? ARCH_FR : ARCH)[g.dataset.k];
     archK.textContent = k; archV.textContent = v;
   };
+  onLang(() => showArch(archActive));
+  if (lang === 'fr') showArch(archActive);
   archNodes.forEach((g) => {
     g.setAttribute('tabindex', '0');
     g.setAttribute('role', 'button');
@@ -262,7 +382,10 @@
   if (gw) gw.classList.add('is-active');
 
   /* ───────────── 4. counters ───────────── */
-  const fmtNum = (v, dec) => v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  const fmtNum = (v, dec) => v.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  onLang(() => $$('[data-count]').forEach((el) => {
+    el.textContent = fmtNum(parseFloat(el.dataset.count), +(el.dataset.dec || 0)) + (el.dataset.suffix || '');
+  }));
   const countIO = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (!e.isIntersecting) return;
@@ -421,24 +544,27 @@
     inErr = false;
 
     if (lc === 'help' || lc === '\\?' || lc === '?' || lc === '\\h') {
-      html(`<span class="kw">General</span>
-  \\dt                     list tables        <span class="dim">(or SHOW TABLES)</span>
-  \\d <span class="hi">TABLE</span>                columns of a table
-  \\nodes                  the live Raft cluster on this page
+      const fr = lang === 'fr';
+      html(`<span class="kw">${fr ? 'Commandes' : 'General'}</span>
+  \\dt                     ${fr ? 'liste des tables  ' : 'list tables       '} <span class="dim">(${fr ? 'ou' : 'or'} SHOW TABLES)</span>
+  \\d <span class="hi">TABLE</span>                ${fr ? 'colonnes d\'une table' : 'columns of a table'}
+  \\nodes                  ${fr ? 'le cluster Raft en direct sur cette page' : 'the live Raft cluster on this page'}
   \\x  \\timing  \\conninfo  clear  \\q
-<span class="kw">Try</span>
+<span class="kw">${fr ? 'Essayez' : 'Try'}</span>
   SELECT * FROM experience;
   SELECT * FROM projects;
   SELECT * FROM skills WHERE category = 'ai';
   EXPLAIN ANALYZE SELECT * FROM ayoub;
   BEGIN; … COMMIT;
-<span class="dim">Tab completes · ↑/↓ history · Esc closes</span>`);
+<span class="dim">${fr ? 'Tab complète · ↑/↓ historique · Échap ferme' : 'Tab completes · ↑/↓ history · Esc closes'}</span>`);
       return;
     }
     if (lc === 'clear' || lc === '\\! clear') { out.innerHTML = ''; return; }
     if (lc === '\\q' || lc === 'exit' || lc === 'quit') { close(); return; }
     if (lc === 'whoami' || lc === 'select current_user') {
-      html('<span class="hi">Ayoub Hamoudi</span>: software engineering student @ INPT Rabat.\nDistributed systems · cloud · AI/LLM · mobile.');
+      html(lang === 'fr'
+        ? '<span class="hi">Ayoub Hamoudi</span> : étudiant en génie logiciel @ INPT Rabat.\nFull-stack · systèmes distribués · cloud · IA/LLM · mobile.'
+        : '<span class="hi">Ayoub Hamoudi</span>: software engineering student @ INPT Rabat.\nFull-stack · distributed systems · cloud · AI/LLM · mobile.');
       return;
     }
     if (lc === '\\conninfo') {
@@ -460,7 +586,9 @@
     if (lc === 'rollback' || lc === 'abort') { inTxn = false; line('ok', 'ROLLBACK'); return; }
     if (/^(insert|update|delete|drop|truncate|alter|create)\b/.test(lc)) {
       error(`cannot execute ${q.split(/\s+/)[0].toUpperCase()} in a read-only transaction`, '25006',
-        'this portfolio is replicated, not writable. Write to hamoudiayoub891@gmail.com instead');
+        lang === 'fr'
+          ? 'ce portfolio est répliqué, pas modifiable. Écrivez plutôt à hamoudiayoub891@gmail.com'
+          : 'this portfolio is replicated, not writable. Write to hamoudiayoub891@gmail.com instead');
       return;
     }
     if (lc === '\\dt' || lc === 'show tables') {
@@ -509,7 +637,7 @@
       return;
     }
     const tok = q.split(/\s+/)[0];
-    error(`syntax error at or near "${tok}"`, '42601', 'type \\? for help');
+    error(`syntax error at or near "${tok}"`, '42601', lang === 'fr' ? 'tapez \\? pour l\'aide' : 'type \\? for help');
   }
 
   function submit(cmd) {
@@ -521,8 +649,9 @@
 
   function boot() {
     booted = true;
-    line('dim', 'distdb sql 1.0 · connected to 127.0.0.1:5433 · database "ayoub"');
-    line('dim', 'Speaks the PostgreSQL protocol (a few tables, read-only). Type \\? for help.');
+    const fr = lang === 'fr';
+    line('dim', fr ? 'distdb sql 1.0 · connecté à 127.0.0.1:5433 · base "ayoub"' : 'distdb sql 1.0 · connected to 127.0.0.1:5433 · database "ayoub"');
+    line('dim', fr ? 'Parle le protocole PostgreSQL (quelques tables, en lecture seule). Tapez \\? pour l\'aide.' : 'Speaks the PostgreSQL protocol (a few tables, read-only). Type \\? for help.');
     line('', '');
     ['\\?', 'SELECT * FROM experience;', 'SELECT * FROM projects;', '\\nodes', 'EXPLAIN ANALYZE SELECT * FROM ayoub;', 'SELECT * FROM contact;']
       .forEach((c) => {
